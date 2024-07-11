@@ -99,9 +99,9 @@ def main():
     exam_data = pd.read_csv("exam_data.csv")
     selected_patient_data = exam_data[exam_data["Name"] == selected_patient]
 
-    validated_df = render_df_with_validation(selected_patient_data)
-    st.dataframe(validated_df)
-    # st.write(selected_patient_data)
+    # validated_df = render_df_with_validation(selected_patient_data)
+    # st.dataframe(validated_df)
+    st.write(selected_patient_data)
 
 
 if __name__ == "__main__":
