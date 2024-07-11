@@ -46,23 +46,6 @@ def save_exam_data(name, glucose, cholesterol, operator):
     df.to_csv("exam_data.csv", index=False)
 
 
-def render_df_with_validation(df):
-    # Initialize lists to store checkbox and comment inputs
-    validated = []
-    comments = []
-
-    # Iterate through DataFrame rows
-    for index, row in df.iterrows():
-        validated.append(st.checkbox(f"Validate {row['Name']}"))
-        comments.append(st.text_area(f"Comments for {row['Name']}"))
-
-    # Add new columns for validation and comments
-    df["Validated"] = validated
-    df["Comments"] = comments
-
-    return df
-
-
 # Main function to run the Streamlit app
 def main():
     st.title("Registro de Exames")
@@ -75,9 +58,6 @@ def main():
     if st.sidebar.button("Register"):
         save_patient_data(name, email, address)
         st.sidebar.success("Patient Registered Successfully!")
-        st.sidebar.text_input("Name", value="")
-        st.sidebar.text_input("Email", value="")
-        st.sidebar.text_area("Address", value="")
 
     # Main section for exam records
     st.header("Patient Exam Records")
@@ -99,8 +79,6 @@ def main():
     exam_data = pd.read_csv("exam_data.csv")
     selected_patient_data = exam_data[exam_data["Name"] == selected_patient]
 
-    # validated_df = render_df_with_validation(selected_patient_data)
-    # st.dataframe(validated_df)
     st.write(selected_patient_data)
 
 
