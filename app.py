@@ -15,7 +15,8 @@ except ValueError as e:
         )
         firebase_admin.initialize_app(cred)
     except:
-        pass
+        st.write(f"Error initializing Firebase: {e}")
+
 
 db = firestore.client()
 
