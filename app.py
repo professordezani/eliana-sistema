@@ -28,7 +28,8 @@ cred = credentials.Certificate({
 try:
     firebase_admin.initialize_app(cred)
 except Exception as e:
-    st.write(f"Error initializing Firebase: {e}")
+    pass
+    # st.write(f"Error initializing Firebase: {e}")
 
 
 db = firestore.client()
