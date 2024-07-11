@@ -5,17 +5,30 @@ import pandas as pd
 import streamlit as st
 from firebase_admin import credentials, firestore
 
+
+# Load Firebase credentials from Streamlit secrets
+firebase_cred = st.secrets["firebase"]
+
+# Initialize Firebase Admin SDK
+cred = credentials.Certificate({
+    "type": firebase_cred["type"],
+    "project_id": firebase_cred["project_id"],
+    "private_key_id": firebase_cred["private_key_id"],
+    "private_key": firebase_cred["private_key"].replace("\\n", "\n"),
+    "client_email": firebase_cred["client_email"],
+    "client_id": firebase_cred["client_id"],
+    "auth_uri": firebase_cred["auth_uri"],
+    "token_uri": firebase_cred["token_uri"],
+    "auth_provider_x509_cert_url": firebase_cred["auth_provider_x509_cert_url"],
+    "client_x509_cert_url": firebase_cred["client_x509_cert_url"],
+    "universe_domain": firebase_cred["universe_domain"]
+})
+
 # Initialize Firebase Admin SDK
 try:
-    app = firebase_admin.get_app()
-except ValueError as e:
-    try:
-        cred = credentials.Certificate(
-            "eliana-sistema-firebase-adminsdk-o60ey-8c6863f3f0.json"
-        )
-        firebase_admin.initialize_app(cred)
-    except:
-        st.write(f"Error initializing Firebase: {e}")
+    firebase_admin.initialize_app(cred)
+except Exception as e:
+    st.write(f"Error initializing Firebase: {e}")
 
 
 db = firestore.client()
