@@ -6,7 +6,9 @@ import streamlit as st
 from firebase_admin import credentials, firestore
 
 # Initialize Firebase Admin SDK
-if not firebase_admin._apps:
+try:
+    app = firebase_admin.get_app()
+except ValueError as e:
     cred = credentials.Certificate(
         "eliana-sistema-firebase-adminsdk-o60ey-8c6863f3f0.json"
     )
