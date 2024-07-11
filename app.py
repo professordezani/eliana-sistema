@@ -9,10 +9,13 @@ from firebase_admin import credentials, firestore
 try:
     app = firebase_admin.get_app()
 except ValueError as e:
-    cred = credentials.Certificate(
-        "eliana-sistema-firebase-adminsdk-o60ey-8c6863f3f0.json"
-    )
-    firebase_admin.initialize_app(cred)
+    try:
+        cred = credentials.Certificate(
+            "eliana-sistema-firebase-adminsdk-o60ey-8c6863f3f0.json"
+        )
+        firebase_admin.initialize_app(cred)
+    except:
+        pass
 
 db = firestore.client()
 
