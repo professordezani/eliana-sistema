@@ -8,7 +8,7 @@ from firebase_admin import credentials, firestore
 # Initialize Firebase Admin SDK
 if not firebase_admin._apps:
     cred = credentials.Certificate(
-        "eliana-sistema-firebase-adminsdk-o60ey-34a6a3d5ec.json"
+        "eliana-sistema-firebase-adminsdk-o60ey-8c6863f3f0.json"
     )
     firebase_admin.initialize_app(cred)
 
@@ -30,7 +30,6 @@ def save_patient_data(name, email, address):
     # # Save to CSV
     # df.to_csv("patient_data.csv", index=False)
     db.collection("patients").add({"name": name, "email": email, "address": address})
-    # st.sidebar.success('Patient Registered Successfully!')
 
 
 # Function to save exam data to a file
@@ -69,21 +68,27 @@ def save_exam_data(name, glucose, cholesterol, operator):
 
 
 def get_patients():
-    patients_ref = db.collection("patients")
-    patients = patients_ref.get()
-    patient_data = []
-    for patient in patients:
-        patient_data.append(patient.to_dict())
-    return patient_data
+    try:
+        patients_ref = db.collection("patients")
+        patients = patients_ref.get()
+        patient_data = []
+        for patient in patients:
+            patient_data.append(patient.to_dict())
+        return patient_data
+    except Exception as e:
+        print(e)
 
 
 def get_exams(patient_name):
-    exams_ref = db.collection("exams").where("name", "==", patient_name)
-    exams = exams_ref.get()
-    exam_data = []
-    for exam in exams:
-        exam_data.append(exam.to_dict())
-    return exam_data
+    if patient_name:
+        exams_ref = db.collection("exams").where("name", "==", patient_name)
+        exams = exams_ref.get()
+        exam_data = []
+        for exam in exams:
+            exam_data.append(exam.to_dict())
+        return exam_data
+    else:
+        return []
 
 
 # Main function to run the Streamlit app
